@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr Alaa Samy | Prim 6 English Games</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#4f46e5;--secondary:#6366f1;--success:#10b981;--dark:#1e293b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo','Poppins',sans-serif;background:radial-gradient(circle at top,#e0e7ff,#a5b4fc);min-height:100vh;display:flex;flex-direction:column;color:var(--dark)}
+header{background:linear-gradient(135deg,#1e3a8a,#3b82f6);color:#fff;padding:30px 20px;text-align:center;border-bottom:4px solid #60a5fa;box-shadow:0 10px 20px rgba(0,0,0,.15)}
+header h1{font-family:'Poppins',sans-serif;font-size:2.4rem;font-weight:800;text-shadow:2px 2px 4px rgba(0,0,0,.3)}
+header p{margin-top:8px;color:#bfdbfe;font-size:1.1rem}
+.container{max-width:860px;width:100%;margin:35px auto;padding:0 16px;flex-grow:1}
+.card{background:#fff;border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 10px 25px rgba(0,0,0,.1);border-bottom:6px solid var(--primary)}
+.card h2{font-family:'Poppins',sans-serif;direction:ltr;text-align:left;font-size:1.35rem;color:var(--primary);margin-bottom:4px}
+.card .sub{direction:ltr;text-align:left;color:#64748b;font-size:.95rem;margin-bottom:16px}
+.link-box{direction:ltr;display:flex;gap:8px;margin-bottom:14px}
+.link-box input{flex:1;min-width:0;padding:10px 12px;border:2px solid #cbd5e1;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.85rem;background:#f8fafc;color:#334155}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1;min-width:140px;border:none;border-radius:12px;padding:12px 16px;font-family:'Cairo',sans-serif;font-size:1.05rem;font-weight:800;cursor:pointer;color:#fff;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .1s}
+.btn:active{transform:translateY(3px)}
+.btn-open{background:var(--primary);box-shadow:0 4px 0 #312e81}
+.btn-copy{background:var(--success);box-shadow:0 4px 0 #059669}
+.btn-copy.done{background:#0f766e}
+footer{background:var(--dark);color:#fff;text-align:center;padding:18px;font-family:'Poppins',sans-serif;font-weight:600;border-top:4px solid var(--primary)}
+@media(max-width:600px){header h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Mr Alaa Samy</h1>
+  <p>ألعاب اللغة الإنجليزية – الصف السادس الابتدائي</p>
+</header>
+
+<div class="container" id="list"></div>
+
+<footer>Mr Alaa Samy</footer>
+
+<script>
+const LESSONS = [
+  {file:"unit3.html", title:"Unit 3: Community Builders", grammar:"can / can't / able to"},
+  {file:"unit4.html", title:"Unit 4: Resources Around Us", grammar:"must/mustn't, should/shouldn't"},
+  {file:"unit5.html", title:"Unit 5: Made In Egypt", grammar:"Past Simple"}
+];
+const base = location.href.replace(/[^\/]*([?#].*)?$/, "");
+const list = document.getElementById("list");
+
+LESSONS.forEach((l, i) => {
+  const url = base + l.file;
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <h2>${l.title}</h2>
+    <div class="sub">Prim 6 · Grammar: ${l.grammar} + Vocabulary</div>
+    <div class="link-box"><input type="text" readonly value="${url}" id="u${i}"></div>
+    <div class="btns">
+      <a class="btn btn-open" href="${l.file}" target="_blank"><i class="fas fa-play"></i> فتح الدرس</a>
+      <button class="btn btn-copy" data-i="${i}"><i class="fas fa-copy"></i> نسخ الرابط</button>
+    </div>`;
+  list.appendChild(card);
+});
+
+list.addEventListener("click", async e => {
+  const b = e.target.closest(".btn-copy");
+  if (!b) return;
+  const input = document.getElementById("u" + b.dataset.i);
+  try { await navigator.clipboard.writeText(input.value); }
+  catch { input.select(); document.execCommand("copy"); }
+  b.classList.add("done");
+  b.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
+  setTimeout(() => { b.classList.remove("done"); b.innerHTML = '<i class="fas fa-copy"></i> نسخ الرابط'; }, 1800);
+});
+</script>
+</body>
+</html>
